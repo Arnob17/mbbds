@@ -1,0 +1,26 @@
+[
+  {
+    "out": "out/magazine-1080x1350.png",
+    "template": "magazine",
+    "size": "1080x1350",
+    "section": "science",
+    "image": "cover.jpg",
+    "category": "দৈনন্দিন বিজ্ঞান",
+    "title": "ভেজা হাতে কাপড় ধোয়ার পাউডার গরম লাগে কেন?",
+    "hook": "দোষটা ঘর্ষণের, নাকি পাউডারের ভেতরের রসায়নের?",
+    "writer": "জাহিদুল ইসলাম শান্ত",
+    "link": "aloion.com"
+  },
+  {
+    "out": "out/magazine-1080x1080.png",
+    "template": "magazine",
+    "size": "1080x1080",
+    "section": "science",
+    "image": "cover.jpg",
+    "category": "দৈনন্দিন বিজ্ঞান",
+    "title": "ভেজা হাতে কাপড় ধোয়ার পাউডার গরম লাগে কেন?",
+    "hook": "দোষটা ঘর্ষণের, নাকি পাউডারের ভেতরের রসায়নের?",
+    "writer": "জাহিদুল ইসলাম শান্ত",
+    "link": "aloion.com"
+  }
+]

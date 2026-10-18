@@ -3,167 +3,195 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>AloIon Photo-Card Generator</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Tiro+Bangla:ital@0;1&display=swap"
-            rel="stylesheet"
-        />
+        <meta name="theme-color" content="#E11D2E" />
+        <title>Aloion Banner Creator · আলোআয়ন ব্যানার</title>
+        <link rel="icon" href="aloionLogo.jpg" />
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body>
-        <script src="logo.js"></script>
-        <div class="app-container">
-            <header class="app-header">
-                <div class="logo-text">আলোআয়ন <span>Creator</span></div>
-                <p class="subtitle">Automated Social Media Card Generator</p>
-            </header>
+    <body data-template="magazine">
+        <header class="topbar">
+            <div class="brand">
+                <span id="brandMark" class="brand-mark" aria-hidden="true"></span>
+                <span class="brand-divider"></span>
+                <span class="brand-title">ব্যানার ক্রিয়েটর <small>Banner Creator</small></span>
+            </div>
+            <p class="topbar-note">ফেসবুক ও সোশ্যাল পোস্টের জন্য আলোআয়নের অফিসিয়াল টেমপ্লেট</p>
+        </header>
 
-            <main class="main-content">
-                <section class="editor-pane">
-                    <div class="form-group">
-                        <label for="templateSelect">Template Style</label>
-                        <select id="templateSelect">
-                            <option value="news">
-                                News / Journal (Editorial)
-                            </option>
-                            <option value="quote">
-                                Author - Quote (Minimalist)
-                            </option>
-                            <option value="quiz">Quiz</option>
+        <main class="layout">
+            <form id="editor" class="editor" autocomplete="off">
+                <fieldset class="group">
+                    <legend>টেমপ্লেট <span>Template</span></legend>
+                    <div class="tabs" role="radiogroup">
+                        <label><input type="radio" name="template" data-key="template" value="magazine" /><span>ম্যাগাজিন স্টোরি</span></label>
+                        <label><input type="radio" name="template" data-key="template" value="news" /><span>খবর / এডিটোরিয়াল</span></label>
+                        <label><input type="radio" name="template" data-key="template" value="quote" /><span>উক্তি</span></label>
+                        <label><input type="radio" name="template" data-key="template" value="quiz" /><span>কুইজ</span></label>
+                    </div>
+                    <div class="field">
+                        <span class="field-label">মাপ <span>Size</span></span>
+                        <div class="seg">
+                            <label><input type="radio" name="size" data-key="size" value="1080x1350" /><span>৪:৫ · 1080×1350</span></label>
+                            <label><input type="radio" name="size" data-key="size" value="1080x1080" /><span>১:১ · 1080×1080</span></label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="group">
+                    <legend>লেখা <span>Content</span></legend>
+
+                    <div class="field" data-show="magazine">
+                        <label for="section">ম্যাগাজিন সেকশন <span>Section colour</span></label>
+                        <select id="section" data-key="section">
+                            <option value="ideas">Ideas · ভাবনা</option>
+                            <option value="science">Science · বিজ্ঞান</option>
+                            <option value="literature">Literature · সাহিত্য</option>
+                            <option value="lifestyle">LifeStyle · জীবনযাপন</option>
+                            <option value="society">Society · সমাজ</option>
+                            <option value="culture">Culture · সংস্কৃতি</option>
+                            <option value="voices">Voices · কণ্ঠস্বর</option>
+                            <option value="comics">Comics · কমিকস</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="quote" id="mainLabel"
-                            >Primary Text (Quote/Headline)</label
-                        >
-                        <textarea
-                            id="quote"
-                            placeholder="এখানে লিখুন..."
-                            rows="4"
-                        >
-জ্ঞানের আলোয় আলোকিত হোক প্রতিটি জীবন।</textarea
-                        >
+                    <div class="field">
+                        <label for="category"><span data-label="category">সেকশন লেবেল</span> <span>Label / badge</span></label>
+                        <input type="text" id="category" data-key="category" placeholder="যেমন: দৈনন্দিন বিজ্ঞান" />
                     </div>
 
-                    <div class="form-group" id="authorGroup">
-                        <label for="author">Author / Subtitle</label>
-                        <input
-                            type="text"
-                            id="author"
-                            placeholder="লেখকের নাম"
-                            value="আলোআয়ন"
-                        />
+                    <div class="field">
+                        <label for="quote"><span data-label="title">শিরোনাম</span> <span>Main text</span></label>
+                        <textarea id="quote" data-key="title" rows="3" placeholder="এখানে লিখুন…"></textarea>
+                        <small class="hint">নতুন লাইনের জন্য Enter চাপুন; না চাপলে লেখা নিজে থেকেই সাজানো হবে।</small>
                     </div>
 
-                    <div
-                        class="form-group"
-                        id="newsSnippetGroup"
-                        style="display: none"
-                    >
-                        <label for="headline"
-                            >Secondary Body Text (Optional)</label
-                        >
-                        <input
-                            type="text"
-                            id="headline"
-                            placeholder="সংক্ষিপ্ত বর্ণনা..."
-                            value=""
-                        />
+                    <div class="field" data-show="magazine news">
+                        <label for="headline"><span data-label="subtitle">এক লাইনের হুক</span> <span>Hook / snippet</span></label>
+                        <textarea id="headline" data-key="subtitle" rows="2" placeholder="সংক্ষেপে কৌতূহল জাগানো এক লাইন…"></textarea>
                     </div>
 
-                    <div id="quizGroup" style="display: none">
-                        <div class="form-group">
-                            <label for="optionA">Option A</label>
-                            <input type="text" id="optionA" value="অপশন ১" />
+                    <div class="field" data-show="magazine news quote">
+                        <label for="author"><span data-label="author">লেখক</span> <span>Author</span></label>
+                        <input type="text" id="author" data-key="author" placeholder="লেখকের নাম" />
+                    </div>
+
+                    <div class="quiz-options" data-show="quiz">
+                        <div class="field opt"><label for="optionA">ক <span>Option A</span></label><input type="text" id="optionA" data-key="options.0" /></div>
+                        <div class="field opt"><label for="optionB">খ <span>Option B</span></label><input type="text" id="optionB" data-key="options.1" /></div>
+                        <div class="field opt"><label for="optionC">গ <span>Option C</span></label><input type="text" id="optionC" data-key="options.2" /></div>
+                        <div class="field opt"><label for="optionD">ঘ <span>Option D</span></label><input type="text" id="optionD" data-key="options.3" /></div>
+                        <div class="field">
+                            <span class="field-label">সঠিক উত্তর দেখাও <span>Answer reveal</span></span>
+                            <div class="seg seg-5">
+                                <label><input type="radio" name="answer" data-key="answer" value="-1" /><span>না</span></label>
+                                <label><input type="radio" name="answer" data-key="answer" value="0" /><span>ক</span></label>
+                                <label><input type="radio" name="answer" data-key="answer" value="1" /><span>খ</span></label>
+                                <label><input type="radio" name="answer" data-key="answer" value="2" /><span>গ</span></label>
+                                <label><input type="radio" name="answer" data-key="answer" value="3" /><span>ঘ</span></label>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="optionB">Option B</label>
-                            <input type="text" id="optionB" value="অপশন ২" />
-                        </div>
-                        <div class="form-group">
-                            <label for="optionC">Option C</label>
-                            <input type="text" id="optionC" value="অপশন ৩" />
-                        </div>
-                        <div class="form-group">
-                            <label for="optionD">Option D</label>
-                            <input type="text" id="optionD" value="অপশন ৪" />
+                        <div class="field">
+                            <label for="cta">নিচের লাইন <span>Call to action</span></label>
+                            <input type="text" id="cta" data-key="cta" placeholder="উত্তর কমেন্টে লেখো" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="category">Category Badge</label>
-                        <input
-                            type="text"
-                            id="category"
-                            placeholder="বিভাগ"
-                            value="শিক্ষা"
-                        />
+                    <div class="field" data-show="magazine news quiz">
+                        <label for="link">ফুটারের লিংক <span>Footer link (optional)</span></label>
+                        <input type="text" id="link" data-key="link" placeholder="aloion.com" />
                     </div>
+                </fieldset>
 
-                    <div class="form-group">
-                        <label for="imageUpload">Background Image</label>
-                        <div class="file-input-wrapper">
-                            <button class="btn btn-secondary">
-                                Choose Image
-                            </button>
-                            <input
-                                type="file"
-                                id="imageUpload"
-                                accept="image/*"
-                            />
+                <fieldset class="group">
+                    <legend><span data-show="magazine">কভার ছবি</span><span data-show="news quote quiz">পটভূমির ছবি</span> <span>Image</span></legend>
+                    <div class="file-row">
+                        <label class="btn btn-ghost file-btn">
+                            ছবি বাছাই করুন
+                            <input type="file" id="imageUpload" accept="image/*" />
+                        </label>
+                        <span id="imageName" class="file-name">কোনো ছবি নেই</span>
+                        <button type="button" id="removeImage" class="link-btn" hidden>সরান</button>
+                    </div>
+                    <div class="field">
+                        <label for="focus">ছবির কোন অংশ থাকবে <span>Crop position</span></label>
+                        <input type="range" id="focus" data-key="focus" min="0" max="100" step="1" />
+                    </div>
+                    <div class="field" data-show="news quote quiz">
+                        <label for="overlayOpacity">ছবি কতটা গাঢ় হবে <span>Overlay darken</span></label>
+                        <input type="range" id="overlayOpacity" data-key="overlay" min="0" max="1" step="0.05" />
+                    </div>
+                </fieldset>
+
+                <fieldset class="group">
+                    <legend>রং ও স্টাইল <span>Style</span></legend>
+                    <div class="field" data-show="news quote quiz">
+                        <span class="field-label">পটভূমি <span>Theme</span></span>
+                        <div class="seg">
+                            <label><input type="radio" name="theme" data-key="theme" value="light" /><span>হালকা (কাগজ)</span></label>
+                            <label><input type="radio" name="theme" data-key="theme" value="dark" /><span>গাঢ় (মেরুন)</span></label>
+                        </div>
+                        <small class="hint" id="themeNote" hidden>ছবি থাকলে লেখা পড়ার সুবিধার জন্য গাঢ় থিম ব্যবহার হয়।</small>
+                    </div>
+                    <div class="field">
+                        <label for="themeColor">অ্যাকসেন্ট রং <span>Accent colour</span></label>
+                        <div class="accent-row">
+                            <input type="color" id="themeColor" data-key="accent" />
+                            <div id="swatches" class="swatches"></div>
+                            <button type="button" id="accentAuto" class="link-btn" hidden>স্বয়ংক্রিয়</button>
+                        </div>
+                        <small class="hint">খালি রাখলে থিম/সেকশনের ব্র্যান্ড রং বসে। পড়া কঠিন হলে রং নিজে থেকে গাঢ় করা হয়।</small>
+                    </div>
+                    <div class="row-2">
+                        <div class="field">
+                            <label for="titleFont">শিরোনামের ফন্ট <span>Title font</span></label>
+                            <select id="titleFont" data-key="titleFont">
+                                <option value="auto">স্বয়ংক্রিয়</option>
+                                <option value="serif">টিরো বাংলা (সেরিফ)</option>
+                                <option value="sans">হিন্দ শিলিগুড়ি (স্যান্স)</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="logoStyle">লোগো <span>Logo</span></label>
+                            <select id="logoStyle" data-key="logo">
+                                <option value="wordmark">aloion লেখা</option>
+                                <option value="badge">গোল ব্যাজ (আ)</option>
+                            </select>
                         </div>
                     </div>
+                    <label class="check"><input type="checkbox" data-key="grain" /> হালকা কাগজের দানা <span>Grain</span></label>
+                </fieldset>
 
-                    <div class="controls-row">
-                        <div class="form-group">
-                            <label for="themeColor">Accent Color</label>
-                            <input
-                                type="color"
-                                id="themeColor"
-                                value="#FF8C00"
-                            />
+                <fieldset class="group export">
+                    <legend>এক্সপোর্ট <span>Export</span></legend>
+                    <div class="row-2">
+                        <div class="seg">
+                            <label><input type="radio" name="format" data-key="format" value="png" /><span>PNG</span></label>
+                            <label><input type="radio" name="format" data-key="format" value="jpg" /><span>JPG</span></label>
                         </div>
-                        <div class="form-group">
-                            <label for="overlayOpacity">Overlay Darken</label>
-                            <input
-                                type="range"
-                                id="overlayOpacity"
-                                min="0"
-                                max="1"
-                                step="0.1"
-                                value="0.4"
-                            />
+                        <div class="seg">
+                            <label><input type="radio" name="scale" data-key="scale" value="1" /><span>1×</span></label>
+                            <label><input type="radio" name="scale" data-key="scale" value="2" /><span>2× (শার্প)</span></label>
                         </div>
                     </div>
-
                     <div class="actions">
-                        <button id="generateBtn" class="btn btn-primary">
-                            Refresh Canvas
-                        </button>
-                        <button id="downloadBtn" class="btn btn-accent">
-                            Download PNG
-                        </button>
+                        <button type="button" id="generateBtn" class="btn btn-ghost">আবার আঁকুন</button>
+                        <button type="button" id="downloadBtn" class="btn btn-primary">ডাউনলোড করুন</button>
                     </div>
-                </section>
+                </fieldset>
+            </form>
 
-                <section class="preview-pane">
-                    <div class="canvas-wrapper">
-                        <canvas
-                            id="cardCanvas"
-                            width="1080"
-                            height="1350"
-                        ></canvas>
-                    </div>
-                    <p class="preview-hint">
-                        1080x1350 (4:5 Ratio) Optimized for Facebook
-                    </p>
-                </section>
-            </main>
-        </div>
+            <section class="stage" aria-label="Preview">
+                <div class="canvas-wrapper">
+                    <canvas id="cardCanvas" width="1080" height="1350"></canvas>
+                </div>
+                <p id="canvasMeta" class="canvas-meta">1080×1350</p>
+            </section>
+        </main>
 
+        <script src="brand.js"></script>
+        <script src="wordmark.js"></script>
+        <script src="fonts.js"></script>
+        <script src="logo.js"></script>
         <script src="script.js"></script>
     </body>
 </html>

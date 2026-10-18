@@ -1,0 +1,12 @@
+{
+  "name": "aloion-banner-creator",
+  "private": true,
+  "type": "module",
+  "description": "Static banner creator for Aloion social posts. No build step; package.json only exists for the optional headless renderer.",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
