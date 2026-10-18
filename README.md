@@ -35,11 +35,12 @@ Every template comes in **1080×1350 (4:5)** and **1080×1080 (1:1)**. Export is
   | Voices | `#F3EBDD` | `#7A4A24` |
   | Comics | `#FFF4C2` | `#C2261F` |
 
-- **Type**: titles and quotes use *Tiro Bangla*, the serif aloion.com uses for magazine headlines.
-  Everything else uses *Hind Siliguri* (400/500/600/700). The quiz and news headlines use Hind Siliguri Bold.
-  You can override this per banner with "শিরোনামের ফন্ট". Both fonts are bundled in `fonts.js` (base64 woff2,
-  subset to Latin + Bengali, SIL OFL; see `fonts/`). Nothing loads from Google Fonts, so the shaping of conjuncts
-  (ন্দ্ব, জ্ঞ, র্ষ, ক্ত …) is the same on every computer.
+- **Type**: *Tiro Bangla* is the title font in every template: magazine titles, news headlines, quotes,
+  quiz questions, quiz option letters (ক–ঘ) and quiz option text (≥ 38 px, where it stays legible).
+  Tiro Bangla has a single weight (400) and is never faux-bolded. *Hind Siliguri* (400/500/600/700) is for small text:
+  section pills, hooks/snippets, author lines, footers and links. "শিরোনামের ফন্ট" can switch a banner's title to
+  Hind Siliguri Bold. No uppercase or letter-spaced labels anywhere. Both fonts are bundled in `fonts.js` (base64 woff2,
+  subset to Latin + Bengali, SIL OFL; see `fonts/`), so conjuncts (ন্দ্ব, জ্ঞ, র্ষ, ক্ত …) shape identically on every computer.
 - **Logo**: `wordmark.js` holds the vector "aloion" wordmark taken from aloion.com. It is drawn as a vector path,
   so it stays sharp at any size. The round "আ" badge (`logo.js` / `aloionLogo.jpg`) is still available
   under "লোগো".

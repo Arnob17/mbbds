@@ -212,10 +212,9 @@
   }
 
   // Single line of text, vertically centred on cy using the Bangla matra line.
-  function label(ctx, text, x, cy, { fam = SANS, w = 500, size, color, align = "left", track = 0 }) {
+  function label(ctx, text, x, cy, { fam = SANS, w = 500, size, color, align = "left" }) {
     ctx.save();
     ctx.font = font(w, size, fam);
-    if (track && "letterSpacing" in ctx) ctx.letterSpacing = `${track}px`;
     ctx.fillStyle = color;
     ctx.textAlign = align;
     ctx.textBaseline = "alphabetic";
@@ -228,10 +227,9 @@
     return width;
   }
 
-  const textWidth = (ctx, text, f, track = 0) => {
+  const textWidth = (ctx, text, f) => {
     ctx.save();
     ctx.font = f;
-    if (track && "letterSpacing" in ctx) ctx.letterSpacing = `${track}px`;
     const w = ctx.measureText(text).width;
     ctx.restore();
     return w;
@@ -373,6 +371,9 @@
     return T;
   }
 
+  // Quiz option body text. Tiro Bangla at >= 38 px stays legible; set to SANS/500 to switch back.
+  const OPT_FAM = SERIF;
+  const OPT_W = 400;
   const titleFam = (fallback) => (S.titleFont === "serif" ? SERIF : S.titleFont === "sans" ? SANS : fallback);
   const titleW = (fam) => (fam === SERIF ? 400 : 700);
 
@@ -396,7 +397,6 @@
     ctx.fillStyle = rgba(ink, 0.28);
     ctx.fillRect(M + wmW + 22, cy - 20, 2, 40);
     label(ctx, "ম্যাগাজিন", M + wmW + 44, cy, { fam: SERIF, w: 400, size: sq ? 36 : 40, color: ink });
-    label(ctx, sec.en.toUpperCase(), W - M, cy, { w: 600, size: 22, color: accent, align: "right", track: 3.5 });
     const mastBottom = mY + mh + (sq ? 16 : 24);
 
     // Footer
@@ -486,14 +486,9 @@
     const M = 72;
     ctx.fillStyle = T.bg;
     ctx.fillRect(0, 0, W, H);
-    if (photo) photoBackground(ctx, W, H, S.overlay * 0.5, { from: sq ? 0.15 : 0.28, bottom: 0.94 });
-
-    const nl = sq ? 66 : 76;
-    drawLogo(ctx, M, M - 16, nl, T.logo);
-    if (S.link.trim()) label(ctx, S.link.trim(), W - M, M - 16 + nl * 0.62, { w: 600, size: 26, color: T.muted, align: "right" });
 
     const maxW = W - 2 * M;
-    const fam = titleFam(SANS);
+    const fam = titleFam(SERIF);
     const footH = S.author.trim() ? (sq ? 84 : 96) : 0;
     const bottom = H - M + 10 - footH;
     const headline = fit(ctx, S.title, {
@@ -501,8 +496,13 @@
     });
     const snip = S.subtitle.trim() ? block(ctx, S.subtitle, { w: 400, size: sq ? 32 : 36, lhr: 1.42, maxW, maxLines: sq ? 2 : 3, balance: true }) : null;
     const kick = S.category.trim() ? 52 : 0;
-    let h = (kick ? kick + 34 : 0) + headline.height + (snip ? 26 + snip.height : 0);
+    const h = (kick ? kick + 34 : 0) + headline.height + (snip ? 26 + snip.height : 0);
     let y = bottom - h;
+    // darken from just above the text block, so thin serif titles stay crisp on busy photos
+    if (photo) photoBackground(ctx, W, H, S.overlay * 0.5, { from: Math.max(0.05, Math.min(sq ? 0.15 : 0.28, (y - 260) / H)), bottom: 0.94 });
+    const nl = sq ? 66 : 76;
+    drawLogo(ctx, M, M - 16, nl, T.logo);
+    if (S.link.trim()) label(ctx, S.link.trim(), W - M, M - 16 + nl * 0.62, { w: 600, size: 26, color: T.muted, align: "right" });
 
     if (kick) {
       pill(ctx, S.category.trim(), M, y, { fill: T.accentFill, size: 28, h: kick });
@@ -620,7 +620,7 @@
     const areaBottom = (cta || link ? ry : H - M) - (sq ? 36 : 52);
 
     const maxW = W - 2 * M;
-    const fam = titleFam(SANS);
+    const fam = titleFam(SERIF);
     const opts = S.options.map((o) => String(o || "").trim());
     let L;
     for (let k = 1; k >= 0.6; k -= 0.04) {
@@ -631,7 +631,7 @@
       const padY = Math.round((sq ? 20 : 26) * k);
       const gap = Math.round((sq ? 16 : 24) * k);
       const tx = 26 + chip + 24;
-      const rows = opts.map((o) => block(ctx, o, { w: 500, size: Math.round((sq ? 36 : 40) * Math.max(k, 0.75)), lhr: 1.3, maxW: maxW - tx - 70, maxLines: 2 }));
+      const rows = opts.map((o) => block(ctx, o, { fam: OPT_FAM, w: OPT_W, size: Math.round((sq ? 38 : 42) * Math.max(k, 0.75)), lhr: 1.3, maxW: maxW - tx - 70, maxLines: 2 }));
       const rowH = rows.map((r) => Math.max(chip, r.height) + padY * 2);
       const qGap = Math.round((sq ? 40 : 56) * k);
       const total = q.height + qGap + rowH.reduce((a, b) => a + b, 0) + gap * 3;
@@ -667,7 +667,7 @@
         ctx.lineWidth = 2.5;
         ctx.stroke();
       }
-      label(ctx, OPTION_LABELS[i], cx, ccy, { w: 600, size: Math.round(L.chip * 0.5), color: on ? T.accentFill : T.accentText, align: "center" });
+      label(ctx, OPTION_LABELS[i], cx, ccy, { fam, w: titleW(fam), size: Math.round(L.chip * (fam === SERIF ? 0.56 : 0.5)), color: on ? T.accentFill : T.accentText, align: "center" });
       r.draw(ctx, M + L.tx, ccy - r.height / 2, textCol);
       if (on) {
         // check mark
